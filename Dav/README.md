@@ -74,6 +74,6 @@
 
 # ![root](images/rootflagoz.jpg?raw=true "root")
 
-+ **And the box is over. 'Dev' it's an easy box, designed for beginners, but we learnt some things about WebDEV and cadaver. All thanks for this box goes to stuxnet!
++ **And the box is over. 'Dev' it's an easy box, designed for beginners, but we learnt some things about WebDEV and cadaver. All thanks for this box goes to stuxnet!**
 
 
