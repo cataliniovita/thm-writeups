@@ -52,7 +52,7 @@
 
 ``http://10.10.62.166/webdav/php-reverse-shell.php``
 
-# ![in](images/werein.jpg?raw=true "in")
+# ![werein](images/werein.jpg?raw=true "in")
 
 # User escalation
 
