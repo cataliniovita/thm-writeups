@@ -40,7 +40,7 @@
 
 ``wget http://10.10.3.149/admin-dir/userid; wget http://10.10.3.149/admin-dir/credentials.txt``
 
-+ **The files looks like some login credentails so let's use them to bruteforce our login page found. I'm gonna use hydra for this, but first i'm gonna see the login request form needed for our bruteforce tool**
++ **The files looks like some login credentails so let's use them to bruteforce our login page found. I'm gonna use hydra for this, but first i'm gonna see the login request form needed for our bruteforce tool. I use burpsuite for this kind of job**
 
 # ![8](images/burprealreq.jpg?raw=true "req")
 
@@ -50,7 +50,29 @@
 
 # ![9](images/hydrated.jpg?raw=true "hydr")
 
-+ **Using the credentials to login on our page, we can see we have an upload section, so let's try to uploada php reverse shell**
+# User escalation
+
++ **Using the credentials to login on our page, we can see we have an upload section. We can go into uploading a reverse shell, but we need to find the upload directory so we can access our uploaded file. For this, let's make another gobuster scan of our secret directory**
+
+``gobuster dir -u http://10.10.3.149/sUp3r-s3cr3t/ -w /usr/share/wordlists/dirb/big.txt``
+
+# ![10](images/secscan.jpg?raw=true "secsc")
+
+**We found another directory inside and finally got a /images/upload dir, where we can find our reverse shell after we're gonna upload it. Let's upload the pentest-monkey [php-reverse shell](https://github.com/pentestmonkey/php-reverse-shell). Don't forget to change the $ip parameter with your tunneled ip address and start a nc listener**
+
+``nc -lvnp 1234``
+
+# ![11](images/gotrev.jpg?raw=true "secsc")
+
++ **And we are in! Let's get our interactive shell and read our first user flag, inside the ``/home/d4rckh`` directory**
+
+``python -c 'import pty;pty.spawn("bin/bash")'``
+
+# ![12](images/userflg.jpg?raw=true "secsc")
+
+# Root escalation
+
+
 
 
 
