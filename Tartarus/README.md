@@ -124,7 +124,7 @@ $ export TERM=xterm-256color
 $ stty rows <num> columns <cols>
 ```
 
-**Let's rewrite our python script: we're gonna get a reverse shell and it will be runned as root, as we've seen before**
+**Let's rewrite our python script: we're gonna get a reverse shell and it will be executed by root, as we've seen before**
 
 ```python
 # -*- coding: utf-8 -*-
