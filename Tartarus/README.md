@@ -54,6 +54,8 @@
 
 + **Using the credentials to login on our page, we can see we have an upload section. We can go into uploading a reverse shell, but we need to find the upload directory so we can access our uploaded file. For this, let's make another gobuster scan of our secret directory**
 
+# ![111](images/uplodo.jpg?raw=true "secsc")
+
 ``gobuster dir -u http://10.10.3.149/sUp3r-s3cr3t/ -w /usr/share/wordlists/dirb/big.txt``
 
 # ![10](images/secscan.jpg?raw=true "secsc")
