@@ -1,6 +1,6 @@
 # 'Tartarus' box writeup
 ## Tartarus is a CTF box created by csenox and available on the [TryHackMe platform](https://tryhackme.com).
-## Read about
+## Read about [GDB Privesc](https://gtfobins.github.io/gtfobins/gdb/), [GIT Privesc](https://gtfobins.github.io/gtfobins/git/) and [Upgrade Shell to interactive TTY](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/)
 # ![bg](images/background.jpeg?raw=true "Title")
 
 ## Foothold
@@ -50,7 +50,7 @@
 
 # ![9](images/hydrated.jpg?raw=true "hydr")
 
-# User escalation
+# 1st User escalation
 
 + **Using the credentials to login on our page, we can see we have an upload section. We can go into uploading a reverse shell, but we need to find the upload directory so we can access our uploaded file. For this, let's make another gobuster scan of our secret directory**
 
@@ -70,7 +70,67 @@
 
 # ![12](images/userflg.jpg?raw=true "secsc")
 
+# 2nd User escalation
+
++ **Let's run a `sudo -l` command on the ``www-data`` user. We can see that the user thirtytwo can run the gdb executable from ``/var/www/gdb``. Let's see if we can escalate with gdb, getting a shell**
+
+# ![13](images/sudol1.jpg?raw=true "secsc")
+
+``sudo -u thirtytwo /var/www/gdb -nx -ex '!sh' -ex quit``
+
+**And we are thirtytwo! Let's continue to escalate to the 2nd user**
+
+# ![14](images/imthirt.jpg?raw=true "secsc")
+
+# 3rd User escalation
+
++ **Running again a ``sudo -l`` we can see that we can run the ``/usr/bin/git`` with d4rckh privileges. Let's exploit this and get a new user shell, but first make sure you have an interactive shell inside our thirtytwo user**
+
+# ![15](images/sudol2.jpg?raw=true "secsc")
+
+``sudo -u d4rckh /usr/bin/git help config``
+
+``!/bin/sh``
+
+# ![16](images/imd4.jpg?raw=true "secsc")
+
 # Root escalation
+
++ **Let's continue looking into the ``/etc/crontab`` file**
+
+# ![17](images/cronos.jpg?raw=true "secsc")
+
+**We can see that a script from d4rck user home directory is running every two minutes. Maybe we can overwrite it so we can run a shell, because the script is runned by root user**
+
+# ![18](images/permiso.jpg?raw=true "secsc")
+
++ **We have the writing permission, so let's overwrite it's content and get a root shell. First, we must upgrade our shell because the vim will be broken and we'll have some troubles. I used the stty options from [ropnop blog](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/)**
+
+```bash
+# In reverse shell
+$ python -c 'import pty; pty.spawn("/bin/bash")'
+Ctrl-Z
+
+# In Kali
+$ stty raw -echo
+$ fg
+
+# In reverse shell
+$ reset
+$ export SHELL=bash
+$ export TERM=xterm-256color
+$ stty rows <num> columns <cols>
+```
+
+```python
+# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+import os
+import sys
+os.system('rm -r /home/cleanup/* ')
+```
+
+
 
 
 
