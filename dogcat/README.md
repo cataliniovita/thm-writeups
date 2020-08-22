@@ -55,7 +55,7 @@
         ?>
 ```
 
-+ **Let's understand this php code to see what's happening behind: 
++ **Let's understand this php code to see what's happening behind:** 
 We have a **containsStr** function which returns the first occurence of a substring in a string; it's like the C **strstr** function.
 There's a **$ext** variable which will be used to set a specific extension: we saw before that every string that we insert will end by having a *php* extension.
 First, the script checks if the view parameter is not NULL, then checks if the query string contains the cat or dog substrings. If this happens, we get the inclusion and simultanously the extension is set
