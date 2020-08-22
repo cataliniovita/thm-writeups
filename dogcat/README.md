@@ -102,4 +102,14 @@ _apt:x:100:65534::/nonexistent:/usr/sbin/nologin
 
 # ![h](images/logpoison.jpg?raw=true "dog")
 
-+ **In order to explain a little bit the log poison procedure, in the /var/log/apache2 folder, there's a file called access.log which keeps all the requests of the apache web-site. We are gonna modify the User-Agent parameter in our GET request with a system cmd so we can get a shell, the system will parse that log file and we will enter inside**
++ **In order to explain a little bit the log poison procedure, in the /var/log/apache2 folder, there's a file called access.log which keeps all the requests of the apache web-site. We are gonna modify the User-Agent parameter in our GET request with a system cmd so we can get a shell, the system will parse that log file and we will enter inside. The first method i will do this will be with the help of burpsuite. Take a request so we can modify it.
+
+**Modify the User-Agent:** ``<?php echo system($_GET["cmd"]); ?>``
+**Insert the 'cmd' variable into the URL and try a command (i've tried ls)**
+
+# ![h](images/burpreds.jpg?raw=true "dog")
+
++ **We can see we have our output of ls command**
+
+
+
