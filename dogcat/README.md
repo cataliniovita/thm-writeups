@@ -1,6 +1,6 @@
 # 'dogcat' box writeup
 ## dogcat is a CTF box created by jammy and available on the [TryHackMe platform](https://tryhackme.com).
-## Read about [LFI using wrappers](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/File%20Inclusion#wrapper-phpfilter)
+## Read about [LFI using wrappers](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/File%20Inclusion#wrapper-phpfilter), [Log poisoning](https://liberty-shell.com/sec/2018/05/19/poisoning/)
 
 # ![bg](images/background.png?raw=true "Title")
 
@@ -93,3 +93,13 @@ gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologi
 nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
 _apt:x:100:65534::/nonexistent:/usr/sbin/nologin
 ```
+
+# Log poison
+
++ **We can use LFI for path traversal and now we're moving on next step: log poison so we can access the system. Looking into the access.log file it seems like we are gonna use the User Agent poisoning**
+
+``http://10.10.23.37/?view=cat/../../../../var/log/apache2/access.log&ext=``
+
+# ![h](images/logpoison.jpg?raw=true "dog")
+
++ **In order to explain a little bit the log poison procedure, in the /var/log/apache2 folder, there's a file called access.log which keeps all the requests of the apache web-site. We are gonna modify the User-Agent parameter in our GET request with a system cmd so we can get a shell, the system will parse that log file and we will enter inside**
